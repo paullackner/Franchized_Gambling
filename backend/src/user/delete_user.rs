@@ -1,7 +1,11 @@
 use rocket_auth::{Auth, Error};
+use rocket::serde::json::Json;
+
+use crate::response::success::PlainSuccess;
+
 
 #[get("/delete")]
-pub async fn delete_user(auth: Auth<'_>) -> Result<String, Error> {
+pub async fn delete_user(auth: Auth<'_>) -> Result<Json<PlainSuccess>, Error> {
     auth.delete().await?;
-    Ok("user deleted".to_string())
+    Ok(Json(PlainSuccess::success()))
 }
