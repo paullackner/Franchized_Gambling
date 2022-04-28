@@ -3,7 +3,7 @@ use rocket_auth::{Login, Auth, Error};
 use rocket::serde::Serialize;
 
 
-#[post("/login", data="<form>")]
+#[post("/user/login", data="<form>")]
 pub async fn login(form: Form<Login>, auth: Auth<'_>) -> Result<Json<LoginResponse>, Error>{
     let email = form.email.to_lowercase();
     auth.login(&form).await?;

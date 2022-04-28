@@ -5,7 +5,7 @@ use rocket_auth::Users;
 use sqlx::{PgPool, Error};
 
 mod user;
-mod response;
+mod model;
 use user::{login::*, signup::*, delete_user::*, logout::*};
 
 #[tokio::main]

@@ -1,7 +1,10 @@
 use rocket_auth::{Auth, Error};
+use rocket::serde::json::Json;
 
-#[get("/logout")]
-pub async fn logout(auth: Auth<'_>) -> Result<String, Error> {
+use crate::model::success::PlainSuccess;
+
+#[get("/user/logout")]
+pub async fn logout(auth: Auth<'_>) -> Result<Json<PlainSuccess>, Error> {
     auth.logout()?;
-    Ok("logout successful".to_string())
+    Ok(Json(PlainSuccess::success()))
 }
