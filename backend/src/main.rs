@@ -6,7 +6,7 @@ use sqlx::{PgPool, Error};
 
 mod user;
 mod model;
-use user::{login::*, signup::*, delete_user::*, logout::*};
+use user::{login::*, signup::*, delete_user::*, logout::*, info::*};
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -14,7 +14,7 @@ async fn main() -> Result<(), Error> {
     let users: Users = conn.clone().into();
 
     rocket::build()
-    .mount("/", routes![login, signup, delete_user, logout])
+    .mount("/", routes![login, signup, delete_user, logout, get_info])
     .mount("/", FileServer::from("../frontend/build"))
     .manage(conn)
     .manage(users)
