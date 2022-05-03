@@ -14,7 +14,7 @@ async fn main() -> Result<(), Error> {
     let users: Users = conn.clone().into();
 
     rocket::build()
-    .mount("/", routes![login, signup, delete_user, logout, get_info])
+    .mount("/", routes![login, signup, delete_user, logout, get_info, set_display_name])
     .mount("/", FileServer::from("../frontend/build"))
     .manage(conn)
     .manage(users)
