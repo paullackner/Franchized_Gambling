@@ -3,10 +3,14 @@
 use rocket::{tokio::{self}, fs::FileServer};
 use rocket_auth::Users;
 use sqlx::{PgPool, Error};
+use rand::prelude::*;
 
 mod user;
 mod model;
+mod games;
 use user::{login::*, signup::*, delete_user::*, logout::*, info::*};
+use games::{flip::*, spinwheel::*};
+
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -14,7 +18,7 @@ async fn main() -> Result<(), Error> {
     let users: Users = conn.clone().into();
 
     rocket::build()
-    .mount("/", routes![login, signup, delete_user, logout, get_info, set_display_name])
+    .mount("/", routes![login, signup, delete_user, logout, get_info, set_display_name, flip_amount, spin_wheel])
     .mount("/", FileServer::from("../frontend/build"))
     .manage(conn)
     .manage(users)
@@ -24,3 +28,4 @@ async fn main() -> Result<(), Error> {
     
     Ok(())
 }
+

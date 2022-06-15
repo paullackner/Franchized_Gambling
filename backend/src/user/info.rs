@@ -27,7 +27,7 @@ pub async fn get_info(auth: Auth<'_>, conn: &State<PgPool>) -> Result<Json<UserI
 pub async fn set_display_name(form: Form<UserName>, auth: Auth<'_>, conn: &State<PgPool>) -> Result<Json<PlainSuccess>, Error>{
     let user = form.into_inner();
     let id = auth.get_user().await.unwrap().id();
-    
+
     query(
         "UPDATE users 
         SET display_name = $1 
