@@ -1,6 +1,8 @@
 #[macro_use] extern crate rocket;
 
-use rocket::{tokio::{self}, fs::FileServer};
+use std::path::{PathBuf, Path};
+
+use rocket::{tokio::{self}, fs::{FileServer, NamedFile}};
 use rocket_auth::Users;
 use sqlx::{PgPool, Error};
 use rand::prelude::*;
@@ -18,8 +20,8 @@ async fn main() -> Result<(), Error> {
     let users: Users = conn.clone().into();
 
     rocket::build()
-    .mount("/", routes![login, signup, delete_user, logout, get_info, set_display_name, flip_amount, spin_wheel])
-    .mount("/", FileServer::from("../frontend/build"))
+    .mount("/", routes![frontend, login, signup, delete_user, logout, get_info, set_display_name, flip_amount, spin_wheel])
+    .mount("/", FileServer::from("../frontend/build").rank(1))
     .manage(conn)
     .manage(users)
     .launch()
@@ -29,3 +31,8 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
+
+#[get("/<_..>", rank=2)]
+async fn frontend() -> Option<NamedFile> {
+    NamedFile::open(Path::new("../frontend/build/index.html")).await.ok()
+}
