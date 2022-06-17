@@ -7,7 +7,7 @@ function Filling() {
         <div className='max-w-[1240px] mx-auto grid lg:grid-cols-3'>
 
             <div>
-                <h1 className='md:text-5xl sm:text-4xl text-xl font-bold pl-2'>Gute Frage was hier hin kommt? Aber es muss was hin das die Struktur schöner macht.</h1>
+                <h1 className='md:text-5xl sm:text-4xl text-xl font-bold pl-2'>Spinning Wheel</h1>
             </div>
 
         </div>
