@@ -1,13 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import ReactDOM from 'react-dom';
+import Provider from 'react-dom';
+import rootStore from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 {/*BrowserRoter does not work */}
+
 ReactDOM.render(
-  <React.StrictMode>
-      <App />
-  </React.StrictMode>,
+
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
+ 
   document.getElementById('root')
 );
 
