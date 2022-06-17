@@ -11,20 +11,17 @@ import {Routes, Route} from 'react-router-dom';
 function App() {
   return (
     <>
-      <Navbar></Navbar>
-      <Hero></Hero>
-      <Overview></Overview>
-      <Filling></Filling>
-      <Cards></Cards>
-      {/*<Routes>
+    
+    <Navbar></Navbar>
+      <Routes>
         <Route path='/' element={<Hero />}/>
         <Route path='/overview' element={<Overview />}/>
         <Route path='/wheel' element={<Filling />}/>
         <Route path='/game' element={<Cards />}/>
         <Route path='/login' element={<Login />}/>
-  </Routes>*/}
-      <Footer></Footer>
-      <Login></Login>
+      </Routes>
+    <Footer></Footer>
+  
     </>
   );
 }
