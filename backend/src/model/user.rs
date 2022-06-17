@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveDateTime};
 use rocket::serde::{Deserialize, Serialize};
 use serde::ser::SerializeStruct;
 
@@ -9,7 +9,7 @@ pub struct UserInformation {
     pub display_name: Option<String>,
     pub money: Option<i32>,
     pub token: Option<i32>,
-    pub last_spin: Option<NaiveDate>
+    pub last_spin: Option<NaiveDateTime>
 }
 
 impl Serialize for UserInformation {
@@ -23,7 +23,7 @@ impl Serialize for UserInformation {
         s.serialize_field("name", &self.display_name);
         s.serialize_field("money", &self.money);
         s.serialize_field("token", &self.token);
-        s.serialize_field("last_spin", &self.last_spin.map_or(None, |x| Some(x.format("%Y-%m-%d").to_string())));
+        s.serialize_field("last_spin", &self.last_spin.map_or(None, |x| Some(x.format("%Y-%m-%d-%H-%M-%S").to_string())));
         s.end()
     }
 }

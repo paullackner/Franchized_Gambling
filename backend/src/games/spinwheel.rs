@@ -1,4 +1,4 @@
-use chrono::Date;
+use chrono::{Date, Duration};
 use rocket_auth::{Auth, Error};
 use rocket::{post, form::Form, serde::json::Json, State, futures};
 use rand::prelude::*;
@@ -12,18 +12,19 @@ use crate::{model::spin::{GameResult, SpinOption}};
 pub async fn spin_wheel(auth: Auth<'_>, conn: &State<PgPool>) -> Result<Json<SpinOption>, Error>{
     let id = auth.get_user().await.unwrap().id();
 
-    let ls: Option<NaiveDate> = sqlx::query!(r#"SELECT last_spin FROM users WHERE id = $1"#, id)
+    let ls: Option<NaiveDateTime> = sqlx::query!(r#"SELECT last_spin FROM users WHERE id = $1"#, id)
         .fetch_one(&**conn)
         .map_ok(|r| r.last_spin)
         .await?;
 
     if let Some(ls) = ls{
-        if ls > Utc::now().naive_utc().date() {
+
+        if ls + Duration::days(1) > Utc::now().naive_utc(){
             return Ok(Json(SpinOption {item: "none".to_owned(), amount: 0}));
         }
     }
 
-    let time = Utc::now().naive_utc().date();
+    let time = Utc::now().naive_utc();
 
     sqlx::query!(r#"UPDATE users SET last_spin = $1 WHERE id = $2"#, time, id)
     .execute(&**conn).await?;
