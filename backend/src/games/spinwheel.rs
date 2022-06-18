@@ -32,7 +32,7 @@ pub async fn spin_wheel(auth: Auth<'_>, conn: &State<PgPool>) -> Result<Json<Spi
     let mut item = "token".to_owned();
     let mut amount = 50;
 
-    amount *= (rand::random::<f32>() * 10.0) as i32 + 1;
+    amount *= (rand::random::<f32>() * 4.0) as i32 + 1;
 
     if rand::random() {
         item = "money".to_owned();
