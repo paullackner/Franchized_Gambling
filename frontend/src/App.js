@@ -6,6 +6,7 @@ import Cards from './components/Cards';
 import Filling from './components/Filling';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import Game from './components/Game';
 import {Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/wheel' element={<Filling />}/>
         <Route path='/game' element={<Cards />}/>
         <Route path='/login' element={<Login />}/>
+        <Route path='/map' element={<Game />}/>
       </Routes>
     <Footer></Footer>
   

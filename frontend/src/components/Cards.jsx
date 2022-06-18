@@ -59,8 +59,8 @@ function Cards() {
           <div className='w-full shadow-xl bg-gray-100 flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
               <img className='w-20 mx-auto mt-[-3rem] bg-transparent' src={Map} alt="/" />
               <h2 className='text-2xl font-bold text-center py-8'>Map</h2>
-              <p className='text-center text-3xl font-bold'>Choose your Location wisely</p>
-              <button className='bg-[#01283f] text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Set your Location</button>
+              <p className='text-center text-3xl font-bold'>Go to map</p>
+              <a className='bg-[#01283f] text-[#00df9a] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3' href='/map'>Set your Location</a>
           </div>
 
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300'>
