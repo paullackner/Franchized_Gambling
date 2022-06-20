@@ -6,10 +6,12 @@ use serde::ser::SerializeStruct;
 #[derive(sqlx::FromRow)]
 pub struct UserInformation {
     pub id: i32,
+    pub email: String,
     pub display_name: Option<String>,
-    pub money: Option<i32>,
-    pub token: Option<i32>,
-    pub last_spin: Option<NaiveDateTime>
+    pub money: i32,
+    pub token: i32,
+    pub last_spin: Option<NaiveDateTime>,
+    pub last_calc: Option<NaiveDateTime>,
 }
 
 impl Serialize for UserInformation {
@@ -20,10 +22,12 @@ impl Serialize for UserInformation {
         let mut s = serializer.serialize_struct("Person", 5)?;
 
         s.serialize_field("id", &self.id);
+        s.serialize_field("email", &self.email);
         s.serialize_field("name", &self.display_name);
         s.serialize_field("money", &self.money);
         s.serialize_field("token", &self.token);
         s.serialize_field("last_spin", &self.last_spin.map_or(None, |x| Some(x.format("%Y-%m-%d-%H-%M-%S").to_string())));
+        s.serialize_field("last_calc", &self.last_calc.map_or(None, |x| Some(x.format("%Y-%m-%d-%H-%M-%S").to_string())));
         s.end()
     }
 }

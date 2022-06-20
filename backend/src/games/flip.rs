@@ -15,7 +15,7 @@ pub async fn flip_amount(mut bet: i32, auth: Auth<'_>, conn: &State<PgPool>) -> 
     let token = sqlx::query!(r#"SELECT token FROM users WHERE id = $1"#, id)
         .fetch_one(&**conn)
         .map_ok(|r| r.token)
-        .await?.unwrap();
+        .await?;
 
     let win: bool = rand::random();
 

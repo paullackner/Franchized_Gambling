@@ -9,4 +9,8 @@ impl PlainSuccess {
     pub fn success() -> Self{
         Self{success: true}
     }
+
+    pub fn fail() -> Self{
+        Self{success: false}
+    }
 }

@@ -11,7 +11,7 @@ mod user;
 mod model;
 mod games;
 use user::{login::*, signup::*, delete_user::*, logout::*, info::*};
-use games::{flip::*, spinwheel::*};
+use games::{flip::*, spinwheel::*, map::*, shop::*};
 
 
 #[tokio::main]
@@ -20,7 +20,13 @@ async fn main() -> Result<(), Error> {
     let users: Users = conn.clone().into();
 
     rocket::build()
-    .mount("/", routes![frontend, login, signup, delete_user, logout, get_info, set_display_name, flip_amount, spin_wheel])
+    .mount("/", routes![
+                                frontend, login, signup, delete_user, 
+                                logout, get_info, set_display_name, flip_amount, 
+                                spin_wheel, upgrade_building, get_upgrade_cost,
+                                get_leaderboard, get_upgrade_costs, buy_upgrade,
+                                buy_token
+                                ])
     .mount("/", FileServer::from("../frontend/build").rank(1))
     .manage(conn)
     .manage(users)

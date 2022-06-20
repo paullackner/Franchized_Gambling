@@ -10,8 +10,12 @@ import Game from './components/Game';
 import House from './components/House';
 import {Routes, Route} from 'react-router-dom';
 import Shop from './components/Shop';
+import User from './components/User';
+var axios = require('axios');
 
 function App() {
+  axios.defaults.withCredentials = true
+
   return (
     <>
     
@@ -25,6 +29,7 @@ function App() {
         <Route path='/game/house' element={<House />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/signup' element={<Signup />}/>
+        <Route path='/user' element={<User />}/>
         <Route path='/map' element={<Game />}/>
       </Routes>
     <Footer></Footer>

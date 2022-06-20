@@ -36,7 +36,6 @@ pub async fn spin_wheel(auth: Auth<'_>, conn: &State<PgPool>) -> Result<Json<Spi
 
     if rand::random() {
         item = "money".to_owned();
-        amount *= 10;
 
         sqlx::query!(r#"UPDATE users SET money = money + $1 WHERE id = $2"#, amount, id)
         .execute(&**conn).await?;

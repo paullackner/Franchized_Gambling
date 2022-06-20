@@ -37,6 +37,10 @@ class mapGame extends Phaser.Scene {
     };
 
     this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
+    let levels = this.game.registry.get('levels');
+
+    this.setHeight(0, levels[0]);
+    this.setHeight(1, levels[1]);
   }
 
   update(delta) {

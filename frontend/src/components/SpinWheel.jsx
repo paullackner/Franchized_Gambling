@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Wheel } from "react-custom-roulette";
+var axios = require('axios');
 
 const data = [
   { option: "10 token" },
@@ -19,9 +20,22 @@ function SpinWheel() {
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
-    setPrizeNumber(newPrizeNumber);
-    setMustSpin(true);
+    axios.get('/games/spin')
+      .then(function (response) {
+        if (response.data.item == 'none') {
+          let b = document.getElementsByTagName('button')[0];
+          b.style.backgroundColor = 'red';
+          b.textContent = 'You can only spin once a day';
+          return
+        }
+        setPrizeNumber(response.data.amount / 50 - 1);
+        setMustSpin(true);
+      })
+      .catch(function (error) {
+        let b = document.getElementsByTagName('button')[0];
+          b.style.backgroundColor = 'red';
+          b.textContent = 'Log in to spin the wheel';
+      });
   };
 
   return (

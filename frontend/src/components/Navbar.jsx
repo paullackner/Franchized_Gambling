@@ -1,15 +1,23 @@
-import React, {useState} from 'react'
+import axios from 'axios'
+import React, {useState, useEffect} from 'react'
 import {FaBars, FaTimes} from 'react-icons/fa'
 
 const Navbar = () => {
 
     const [nav, setNav] = useState(false)
+    const [login, setLogin] = useState(false)
 
     const handleNav = () => {
 
         setNav(!nav)
 
     }
+
+    useEffect(() => {
+        axios.get('/user/info').then((response) => {
+            setLogin(true);
+        });
+      });
 
   return (
     <div className='flex justify-between items-center h-16 max-w-[1240px] mx-auto px-4 text-white'>
@@ -33,7 +41,7 @@ const Navbar = () => {
             </li>
 
             <li className='p-4'>
-                <a href='/login'>Login</a>
+                <a href={(login)? '/user' : '/login'}>{(login)? 'Me' : 'Login'}</a>
             </li>
 
             

@@ -6,7 +6,7 @@ function House() {
   
 
   return (
-    <div className="grid grid-cols-1 justify-items-center mt-4">
+    <div className="grid grid-cols-1 justify-items-center mt-4 min-h-[500px]">
       <CoinFlip/>
     </div>
   );

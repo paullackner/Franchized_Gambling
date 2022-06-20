@@ -1,21 +1,18 @@
 import React from "react";
 import Phaser from "phaser";
 import mapGame from "../phaser/scene";
+var axios = require('axios');
 
 export default class Game extends React.Component {
   phaserGame;
   config;
 
-  money = 5000;
-  cost = [100, 100];
-  level = [0, 0];
-
   constructor(props) {
     super(props);
     this.state = {
-        money : 5000,
-        cost : [100, 100],
-        level : [0, 0],
+      money: 0,
+      cost: [0, 0],
+      level: [0, 0],
     }
   }
 
@@ -28,19 +25,37 @@ export default class Game extends React.Component {
       zoom: window.innerWidth / (50 * 16),
       parent: document.getElementById("gamediv"),
       pixelArt: true,
+      testConfig: 'this is a test',
       scene: mapGame,
     };
     this.phaserGame = new Phaser.Game(this.config);
+
+    axios.get('/user/info').then((response) => {
+      this.setState({ money: response.data.money })
+    });
+
+    axios.get('/games/map/costs').then((response) => {
+      console.log(response);
+      this.setState({cost: response.data.costs, level: response.data.levels});
+      this.phaserGame.registry.set('levels', response.data.levels)
+      this.phaserGame.scene.getAt(0).setHeight(0, response.data.levels[0]);
+      this.phaserGame.scene.getAt(0).setHeight(1, response.data.levels[1]);
+    });
   }
 
   upgradeBuilding(id) {
-    if (this.state.money >= this.state.cost[id]) {
-        let level = this.state.level;
-        level[id]++
-        this.setState({level : level});
-        this.setState({money : this.state.money - this.state.cost[id]});
-        this.phaserGame.scene.getAt(0).setHeight(id, level[id])
-    }
+    axios.get('/games/map/upgrade', {params: {number: id}}).then((response) => {
+      if (response.data.number == -1) {
+        return;
+      }
+      console.log(response);
+      let level = this.state.level;
+      level[id]++
+      let cost = this.state.cost;
+      cost[id] = response.data.cost;
+      this.setState({ level: level, money: this.state.money - response.data.cost, cost: cost });
+      this.phaserGame.scene.getAt(0).setHeight(id, level[id])
+    })
   }
 
   render() {
@@ -51,7 +66,7 @@ export default class Game extends React.Component {
             <p className="font-bold text-2xl">
               Building 1 - Level: {this.state.level[0]}
             </p>
-            <button className="bg-[#00df9a] font-bold rounded-md px-6 py-3" onClick={() => {this.upgradeBuilding(0)}}>
+            <button className="bg-[#00df9a] font-bold rounded-md px-6 py-3" onClick={() => { this.upgradeBuilding(0) }}>
               Upgrade: {this.state.cost[0]}$
             </button>
           </div>
@@ -64,9 +79,9 @@ export default class Game extends React.Component {
             <p className="font-bold text-2xl">
               Building 2 - Level: {this.state.level[1]}
             </p>
-            <button className="bg-[#00df9a] font-bold rounded-md px-6 py-3" 
-                    onClick={() => {this.upgradeBuilding(1)}}
-                    type="button">
+            <button className="bg-[#00df9a] font-bold rounded-md px-6 py-3"
+              onClick={() => { this.upgradeBuilding(1) }}
+              type="button">
               Upgrade: {this.state.cost[1]}$
             </button>
           </div>
